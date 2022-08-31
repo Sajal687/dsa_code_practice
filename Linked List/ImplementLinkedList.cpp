@@ -15,6 +15,79 @@ node(int val){
 }
 };
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+int FindLength(node* head){
+  int len=0;
+  while(head != NULL){
+    len++;
+    head=head->next;
+  }
+  return len;
+}
+
+ node* reverseKGroup(node* head, int k) {
+        node* prev = NULL;
+        node* curr = head;
+        node* firstNode = head;
+        node* secNode;
+        node* temp;
+        int len = FindLength(head);
+       
+        int no_of_reverse = len/k;
+     
+        while(no_of_reverse){
+            if( no_of_reverse != len/k ){         //First Group toh nhi hain ye waala
+              secNode = curr;
+            }
+          int cnt=0;
+
+            while(cnt<k){
+
+                if(cnt!=0){
+                    temp = curr->next;
+                    curr->next = prev;
+                    prev=curr;
+                    curr=temp;
+                    if(cnt==k-1 && no_of_reverse != len/k){       // Check For it is not a  first group (and)  it is  a last element of grp
+                      firstNode->next=prev;
+                      firstNode=secNode;;
+                    }
+                }
+
+                else{
+                    prev = curr;
+                    curr = curr->next;
+                }    
+
+                cnt++;
+            }
+
+            if(no_of_reverse==(len/k))   //Check for first group 
+            { 
+                head=prev;
+            }
+            //firstNode->next = curr;
+            --no_of_reverse;
+        }
+        if((len/k)==1){
+          firstNode->next = curr;
+          return head;
+        }
+        secNode->next=curr;
+        //curr->next=NULL;
+        return head;
+    }
+
 node* reverseListByRecursion2(node* head , node* &tail){
   if(head==NULL || head->next==NULL){
     return head;
@@ -97,15 +170,6 @@ int searchFor(node* head,int key){
     cnt++;
   }
   return -1;
-}
-
-int FindLength(node* head){
-  int len=0;
-  while(head != NULL){
-    len++;
-    head=head->next;
-  }
-  return len;
 }
 
 void deleteAtPos(node* &head,node* &tail,int pos){
@@ -202,6 +266,8 @@ printList(head);
 node *head=NULL;
 node *tail=NULL;
 
+
+/*
 // Insert Element At Last 
 InsertAtTail(head,tail,125);
 InsertAtTail(head,tail,150);
@@ -260,5 +326,26 @@ cout<<"head->data = "<<head->data<<endl;
 head=reverseListByRecursion2(head,tail);
 printList(head);
 cout<<"tail->data = "<<tail->data<<endl;
+cout<<"head->data = "<<head->data<<endl;ṇ
+
+*/
+
+
+InsertAtTail(head,tail,1);
+InsertAtTail(head,tail,2);
+InsertAtTail(head,tail,3);
+InsertAtTail(head,tail,4);
+// InsertAtTail(head,tail,5);
+// InsertAtTail(head,tail,6);
+// InsertAtTail(head,tail,7);
+// InsertAtTail(head,tail,8);
+// InsertAtTail(head,tail,9);
+// InsertAtTail(head,tail,96);
+
+
+head=reverseKGroup(head,3);
+cout<<"tail->data = "<<tail->data<<endl;
 cout<<"head->data = "<<head->data<<endl;
+// cout<<"aa rahe hain";
+printList(head);
 }
